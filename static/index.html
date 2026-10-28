@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bigrock Bulk Mailer Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <!-- Top Navigation Bar -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="brand-logo">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h9"></path>
+          <polyline points="22,6 12,13 2,6"></polyline>
+          <path d="M19 16v6"></path>
+          <path d="M22 19h-6"></path>
+        </svg>
+      </div>
+      <div>
+        <h1 class="brand-title">Bigrock Bulk Mailer</h1>
+        <p class="brand-subtitle">Automated Email Campaign Manager for Roundcube / MailHostBox</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="badge-group">
+        <span id="connectionBadge" class="status-pill pill-online">
+          <span class="dot"></span> Online
+        </span>
+        <span id="workerStatusBadge" class="status-pill pill-idle">
+          Idle
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-content">
+    
+    <!-- Top Grid: Config & Campaign Assets -->
+    <div class="dashboard-grid">
+      
+      <!-- Card 1: Credentials & Server Settings -->
+      <section class="card config-card">
+        <div class="card-header">
+          <div class="card-icon icon-indigo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          <div>
+            <h2 class="card-title">1. Mailbox Credentials</h2>
+            <p class="card-desc">Enter your Bigrock / MailHostBox account details</p>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="form-group">
+            <label for="fromEmail">Sender Email Address <span class="req">*</span></label>
+            <div class="input-with-icon">
+              <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              <input type="email" id="fromEmail" placeholder="e.g. oralhealth@scienceresearchpub.org" autocomplete="email" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="emailPassword">Email Password <span class="req">*</span></label>
+            <div class="input-with-icon password-group">
+              <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <input type="password" id="emailPassword" placeholder="Enter your email password" required>
+              <button type="button" id="togglePasswordBtn" class="btn-toggle-eye" title="Toggle password visibility">
+                <svg id="eyeIconOpen" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <svg id="eyeIconClosed" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              </button>
+            </div>
+            <p class="field-note">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              Kept in temporary memory only. Never saved to files or uploaded externally.
+            </p>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="delaySeconds">Delay Between Emails (sec)</label>
+              <input type="number" id="delaySeconds" value="30" min="5" max="300" step="1">
+            </div>
+            <div class="form-group">
+              <label for="headlessMode">Chrome Window</label>
+              <div class="checkbox-container">
+                <input type="checkbox" id="showChromeWindow" checked>
+                <span class="checkbox-label">Show Chrome window</span>
+              </div>
+            </div>
+          </div>
+
+          <details class="advanced-details">
+            <summary>Advanced Server Settings</summary>
+            <div class="form-group mt-2">
+              <label for="webmailUrl">Webmail Host URL</label>
+              <input type="url" id="webmailUrl" value="https://us3.webmail.mailhostbox.com">
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- Card 2: Campaign Files & Assets -->
+      <section class="card files-card">
+        <div class="card-header">
+          <div class="card-icon icon-teal">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          <div>
+            <h2 class="card-title">2. Campaign Files</h2>
+            <p class="card-desc">Uploaded files or defaults from project folder</p>
+          </div>
+        </div>
+
+        <div class="card-body file-upload-list">
+          
+          <!-- Recipient File Item -->
+          <div class="file-item" id="recipientsItem">
+            <div class="file-item-left">
+              <div class="file-badge badge-green">CSV / XLSX</div>
+              <div class="file-info">
+                <div class="file-name" id="recipientsFileName">Loading recipients...</div>
+                <div class="file-meta" id="recipientsMeta">Checking file...</div>
+              </div>
+            </div>
+            <div class="file-actions">
+              <button type="button" class="btn-sm btn-ghost" id="previewRecipientsBtn">Preview</button>
+              <label class="btn-sm btn-outline file-upload-label">
+                Upload New
+                <input type="file" id="recipientsFileInput" accept=".csv,.xlsx,.xlsm" hidden>
+              </label>
+            </div>
+          </div>
+
+          <!-- Template File Item -->
+          <div class="file-item" id="templateItem">
+            <div class="file-item-left">
+              <div class="file-badge badge-blue">DOCX</div>
+              <div class="file-info">
+                <div class="file-name" id="templateFileName">Loading template...</div>
+                <div class="file-meta" id="templateMeta">Checking file...</div>
+              </div>
+            </div>
+            <div class="file-actions">
+              <button type="button" class="btn-sm btn-ghost" id="previewTemplateBtn">Preview</button>
+              <label class="btn-sm btn-outline file-upload-label">
+                Upload New
+                <input type="file" id="templateFileInput" accept=".docx,.txt" hidden>
+              </label>
+            </div>
+          </div>
+
+          <!-- Subject File Item -->
+          <div class="file-item" id="subjectItem">
+            <div class="file-item-left">
+              <div class="file-badge badge-purple">SUBJECTS</div>
+              <div class="file-info">
+                <div class="file-name" id="subjectFileName">Loading subjects...</div>
+                <div class="file-meta" id="subjectMeta">Checking file...</div>
+              </div>
+            </div>
+            <div class="file-actions">
+              <button type="button" class="btn-sm btn-ghost" id="previewSubjectBtn">View</button>
+              <label class="btn-sm btn-outline file-upload-label">
+                Upload New
+                <input type="file" id="subjectFileInput" accept=".docx,.txt" hidden>
+              </label>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Campaign Controller & Live Metrics Section -->
+    <section class="card control-banner">
+      <div class="control-header">
+        <div class="actions-group">
+          <button type="button" id="startBtn" class="btn btn-primary btn-large">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            Start Campaign
+          </button>
+          <button type="button" id="pauseBtn" class="btn btn-warning" disabled>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+            Pause
+          </button>
+          <button type="button" id="stopBtn" class="btn btn-danger" disabled>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+            </svg>
+            Stop
+          </button>
+        </div>
+
+        <div class="current-task-info">
+          <span class="task-label">CURRENT STATUS:</span>
+          <span id="currentStatusText" class="task-value">Ready to start</span>
+        </div>
+      </div>
+
+      <!-- Live Counters -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <span class="metric-num" id="totalCount">0</span>
+          <span class="metric-label">Total Recipients</span>
+        </div>
+        <div class="metric-card metric-success">
+          <span class="metric-num" id="sentCount">0</span>
+          <span class="metric-label">Successfully Sent</span>
+        </div>
+        <div class="metric-card metric-danger">
+          <span class="metric-num" id="failedCount">0</span>
+          <span class="metric-label">Failed</span>
+        </div>
+        <div class="metric-card metric-info">
+          <span class="metric-num" id="remainingCount">0</span>
+          <span class="metric-label">Remaining</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-num" id="elapsedTime">00:00</span>
+          <span class="metric-label">Elapsed Time</span>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="progress-wrapper">
+        <div class="progress-bar-container">
+          <div id="progressBar" class="progress-bar" style="width: 0%;"></div>
+        </div>
+        <div class="progress-meta">
+          <span id="progressPercent">0%</span> Completed
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom Split: Live Sent Emails Table & Live Log Console -->
+    <div class="lower-grid">
+      
+      <!-- Left Column: Sent Log Table -->
+      <section class="card table-card">
+        <div class="table-card-header">
+          <div>
+            <h2 class="card-title">Sent Emails Tracker</h2>
+            <p class="card-desc">Real-time status of all processed recipients</p>
+          </div>
+          <div class="table-actions">
+            <input type="text" id="tableSearchInput" placeholder="Filter by name, email, subject..." class="search-input">
+            <select id="statusFilterSelect" class="filter-select">
+              <option value="">All Statuses</option>
+              <option value="sent">Sent Only</option>
+              <option value="failed">Failed Only</option>
+            </select>
+            <select id="dateFilterSelect" class="filter-select date-select" title="Filter by date from log">
+              <option value="">All Dates</option>
+            </select>
+            <input type="date" id="datePickerInput" class="filter-date-picker" title="Pick a specific date">
+            <button type="button" id="exportLogBtn" class="btn-sm btn-outline">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Export CSV
+            </button>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Recipient</th>
+                <th>Subject Line</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="sentLogTableBody">
+              <tr>
+                <td colspan="4" class="text-center text-muted">No emails sent yet in this session.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Right Column: Live Console Terminal -->
+      <section class="card console-card">
+        <div class="console-header">
+          <div class="console-title">
+            <span class="terminal-dots">
+              <span class="dot-red"></span>
+              <span class="dot-yellow"></span>
+              <span class="dot-green"></span>
+            </span>
+            <span>Live Automation Activity</span>
+          </div>
+          <button type="button" id="clearConsoleBtn" class="btn-xs btn-ghost">Clear</button>
+        </div>
+        <div id="consoleTerminal" class="console-terminal">
+          <div class="log-line log-info">[System] Dashboard initialized. Waiting for campaign start...</div>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- Modal for Previews -->
+  <div id="previewModal" class="modal-overlay hidden">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="modalTitle" class="modal-title">Preview</h3>
+        <button type="button" id="closeModalBtn" class="modal-close">&times;</button>
+      </div>
+      <div id="modalBody" class="modal-body">
+        <!-- Content injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

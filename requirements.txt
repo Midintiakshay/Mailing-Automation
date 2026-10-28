@@ -1,0 +1,15 @@
+# Browser Automation
+selenium>=4.20.0
+webdriver-manager>=4.0.0
+
+# Template and Recipient File Support
+python-docx>=1.1.0
+openpyxl>=3.1.0
+
+# Web Interface
+fastapi>=0.115.0
+uvicorn>=0.30.0
+python-multipart>=0.0.9
+
+# Legacy Word (.doc) support on Windows (optional)
+pywin32>=306; sys_platform == 'win32'
